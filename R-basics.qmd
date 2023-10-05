@@ -1,0 +1,347 @@
+# R basics {#sec-r-basics}
+
+```{r, echo=FALSE}
+img_path <- "img"
+```
+
+In this course, we will be using the R software environment for all our analysis. You will learn R and data analysis techniques simultaneously. To follow along you will therefore need access to R. We also recommend the use of an *integrated development environment* (IDE), such as RStudio, to save your work. Note that it is common for a course or workshop to offer access to an R environment and an IDE through your web browser, as done by RStudio cloud[^r-basics-1]. If you have access to such a resource, you don't need to install R and RStudio. However, if you intend on becoming an advanced data analyst, we highly recommend installing these tools on your computer[^r-basics-2]. Both R and RStudio are free and available online.
+
+[^r-basics-1]: <https://rstudio.cloud>
+
+[^r-basics-2]: <https://rafalab.github.io/dsbook/installing-r-rstudio.html>
+
+# BlueBear and High Computing Centre {#sec-bluebear}
+
+-   [Bear Portal](https://portal.bear.bham.ac.uk)
+
+# Kickstart
+
+## The very basics
+
+Before we get started with our example, we need to cover logistics as well as some of the very basic building blocks that are required to gain more advanced R skills. Be aware that the usefulness of some of these building blocks may not be immediately obvious, but later in the course you will appreciate having mastered these skills.
+
+## Using R as a calculator
+
+The simplest thing you could do with R is to do arithmetic:
+
+```{r}
+1 + 100
+```
+
+And R will print out the answer, with a preceding **\[1\]**. Don't worry about this for now, we'll explain that later. For now think of it as indicating output.
+
+Any time you hit return and the R session shows a "+" instead of a "\>", it means it's waiting for you to complete the command. If you want to cancel a command you can hit <kbd>Esc</kbd> and RStudio will give you back the "\>" prompt.
+
+> ## Tip: Canceling commands
+>
+> If you're using R from the command line instead of from within RStudio, you need to use <kbd>Ctrl</kbd>+<kbd>C</kbd> instead of <kbd>Esc</kbd> to cancel the command. This applies to Mac users as well!
+>
+> Canceling a command isn't only useful for killing incomplete commands: you can also use it to tell R to stop running code (for example if it's taking much longer than you expect), or to get rid of the code you're currently writing.
+
+The text after each line of code is called a "comment". Anything that follows after the hash (or octothorpe) symbol `#` is ignored by R when it executes code.
+
+```{r, eval=FALSE}
+3 + 5 * (2 ^ 2)     # if you forget some rules, this might help
+```
+
+## Comparing things
+
+We can also do comparisons in R:
+
+```{r}
+1 == 1  # equality (note two equals signs, read as "is equal to")
+```
+
+```{r}
+1 != 2  # inequality (read as "is not equal to")
+```
+
+```{r}
+1 < 2  # less than
+```
+
+```{r}
+1 <= 1  # less than or equal to
+```
+
+```{r}
+1 > 0  # greater than
+```
+
+```{r}
+1 >= -9 # greater than or equal to
+```
+
+## Variables and assignment
+
+We can store values in variables using the assignment operator `<-`, like this:
+
+```{r}
+x <- 1/40
+```
+
+Notice that assignment does not print a value. Instead, we stored it for later in something called a **variable**. `x` now contains the **value** `0.025`:
+
+```{r}
+x
+```
+
+More precisely, the stored value is a *decimal approximation* of this fraction called a [floating point number](http://en.wikipedia.org/wiki/Floating_point).
+
+Look for the `Environment` tab in the top right panel of RStudio, and you will see that `x` and its value have appeared.
+
+Notice also that variables can be reassigned:
+
+```{r}
+x <- 100
+```
+
+`x` used to contain the value 0.025 and now it has the value 100.
+
+Assignment values can contain the variable being assigned to:
+
+```{r}
+x <- x + 1 #notice how RStudio updates its description of x on the top right tab
+y <- x * 2
+```
+
+The right hand side of the assignment can be any valid R expression. The right hand side is *fully evaluated* before the assignment occurs.
+
+It is also possible to use the `=` operator for assignment:
+
+```{r}
+x = 1/40
+```
+
+But this is much less common among R users. The most important thing is to **be consistent** with the operator you use. There are occasionally places where it is less confusing to use `<-` than `=`, and it is the most common symbol used in the community. So the recommendation is to use `<-`.
+
+> ## Challenge 1
+>
+> Which of the following are valid R variable names?
+>
+> ```{r, eval=FALSE}
+> min_height
+> max.height
+> _age
+> .mass
+> MaxLength
+> min-length
+> 2widths
+> celsius2kelvin
+> ```
+>
+> > ## Solution to challenge 1
+> >
+> > The following can be used as R variables:
+> >
+> > ```{r ch1pt1-sol, eval=FALSE}
+> > min_height
+> > max.height
+> > MaxLength
+> > celsius2kelvin
+> > ```
+> >
+> > The following creates a hidden variable:
+> >
+> > ```{r ch1pt2-sol, eval=FALSE}
+> > .mass
+> > ```
+> >
+> > The following will not be able to be used to create a variable
+> >
+> > ```{r ch1pt3-sol, eval=FALSE}
+> > _age
+> > min-length
+> > 2widths
+> > ```
+
+For more advice, highly recommend studying Hadley Wickham's style guide[^r-basics-3].
+
+[^r-basics-3]: <http://adv-r.had.co.nz/Style.html>
+
+### Variables continued
+
+Suppose a high school student asks us for help solving several quadratic equations of the form $ax^2+bx+c = 0$. The quadratic formula gives us the solutions:
+
+$$
+\frac{-b - \sqrt{b^2 - 4ac}}{2a}\,\, \mbox{ and } \frac{-b + \sqrt{b^2 - 4ac}}{2a}
+$$ which of course change depending on the values of $a$, $b$, and $c$. One advantage of programming languages is that we can define variables and write expressions with these variables, similar to how we do so in math, but obtain a numeric solution. We will write out general code for the quadratic equation below, but if we are asked to solve $x^2 + x -1 = 0$, then we define:
+
+```{r}
+a <- 1
+b <- 1
+c <- -1
+```
+
+which stores the values for later use. We use `<-` to assign values to the variables.
+
+Copy and paste the code above into your console to define the three variables. Note that R does not print anything when we make this assignment. This means the objects were defined successfully. Had you made a mistake, you would have received an error message.
+
+To see the value stored in a variable, we simply ask R to evaluate `a` and it shows the stored value:
+
+```{r}
+a
+```
+
+A more explicit way to ask R to show us the value stored in `a` is using `print` like this:
+
+```{r}
+print(a)
+```
+
+We use the term *object* to describe stuff that is stored in R. Variables are examples, but objects can also be more complicated entities such as functions, which are described later.
+
+### The workspace
+
+As we define objects in the console, we are actually changing the *workspace*. You can see all the variables saved in your workspace by typing:
+
+```{r}
+ls()
+```
+
+In RStudio, the *Environment* tab shows the values:
+
+```{r, echo=FALSE}
+knitr::include_graphics(file.path(img_path,"rstudio-environment.png"))
+```
+
+We should see `a`, `b`, and `c`. If you try to recover the value of a variable that is not in your workspace, you receive an error. For example, if you type `x` you will receive the following message: `Error: object 'x' not found`.
+
+Now since these values are saved in variables, to obtain a solution to our equation, we use the quadratic formula:
+
+```{r}
+(-b + sqrt(b^2 - 4*a*c))/(2*a)
+(-b - sqrt(b^2 - 4*a*c))/(2*a)
+```
+
+### Functions
+
+Once you define variables, the data analysis process can usually be described as a series of *functions* applied to the data. R includes several predefined functions and most of the analysis pipelines we construct make extensive use of these.
+
+We already used the `install.packages`, `library`, and `ls` functions. We also used the function `sqrt` to solve the quadratic equation above. There are many more prebuilt functions and even more can be added through packages. These functions do not appear in the workspace because you did not define them, but they are available for immediate use.
+
+In general, we need to use parentheses to evaluate a function. If you type `ls`, the function is not evaluated and instead R shows you the code that defines the function. If you type `ls()` the function is evaluated and, as seen above, we see objects in the workspace.
+
+```{r}
+sin(1)  # trigonometry functions
+?sin
+```
+
+This is one advantage that RStudio has over R on its own, it has auto-completion abilities that allow you to more easily look up functions, their arguments, and the values that they take.
+
+Unlike `ls`, most functions require one or more *arguments*. Below is an example of how we assign an object to the argument of the function `log`. Remember that we earlier defined `a` to be 1:
+
+```{r}
+log(8)
+log(a) 
+```
+
+You can find out what the function expects and what it does by reviewing the very useful manuals included in R. You can get help by using the `help` function like this:
+
+```{r, eval=FALSE}
+help("log")
+```
+
+For most functions, we can also use this shorthand:
+
+```{r, eval=FALSE}
+?log
+```
+
+The help page will show you what arguments the function is expecting. For example, `log` needs `x` and `base` to run. However, some arguments are required and others are optional. You can determine which arguments are optional by noting in the help document that a default value is assigned with `=`. Defining these is optional. For example, the base of the function `log` defaults to `base = exp(1)` making `log` the natural log by default.
+
+If you want a quick look at the arguments without opening the help system, you can type:
+
+```{r}
+args(log)
+```
+
+You can change the default values by simply assigning another object:
+
+```{r}
+log(8, base = 2)
+```
+
+Note that we have not been specifying the argument `x` as such:
+
+```{r}
+log(x = 8, base = 2)
+```
+
+The above code works, but we can save ourselves some typing: if no argument name is used, R assumes you are entering arguments in the order shown in the help file or by `args`. So by not using the names, it assumes the arguments are `x` followed by `base`:
+
+```{r}
+log(8,2)
+```
+
+If using the arguments' names, then we can include them in whatever order we want:
+
+```{r}
+log(base = 2, x = 8)
+```
+
+To specify arguments, we must use `=`, and cannot use `<-`.
+
+There are some exceptions to the rule that functions need the parentheses to be evaluated. Among these, the most commonly used are the arithmetic and relational operators. For example:
+
+```{r}
+2 ^ 3
+```
+
+You can see the arithmetic operators by typing:
+
+```{r, eval = TRUE}
+help("+") 
+```
+
+or
+
+```{r, eval = TRUE}
+?"+"
+```
+
+## R Packages
+
+It is possible to add functions to R by writing a package, or by obtaining a package written by someone else. As of this writing, there are over 10,000 packages available on CRAN (the comprehensive R archive network). R and RStudio have functionality for managing packages:
+
+-   You can see what packages are installed by typing `installed.packages()`
+-   You can install packages by typing `install.packages("packagename")`, where `packagename` is the package name, in quotes.
+-   You can update installed packages by typing `update.packages()`
+-   You can remove a package with `remove.packages("packagename")`
+-   You can make a package available for use with `library(packagename)`
+
+Packages can also be viewed, loaded, and detached in the Packages tab of the lower right panel in RStudio. Clicking on this tab will display all of installed packages with a checkbox next to them. If the box next to a package name is checked, the package is loaded and if it is empty, the package is not loaded. Click an empty box to load that package and click a checked box to detach that package.
+
+Packages can be installed and updated from the Package tab with the Install and Update buttons at the top of the tab.
+
+> ## Challenge 2
+>
+> Clean up your working environment by deleting the mass and age variables.
+>
+> > ## Solution to challenge 2
+> >
+> > We can use the `rm` command to accomplish this task
+> >
+> > ```{r ch4-sol}
+> > rm(age, mass)
+> > ```
+
+> ## Challenge 3
+>
+> Install the following packages: `ggplot2`, `plyr`, `gapminder`
+>
+> > ## Solution to challenge 3
+> >
+> > We can use the `install.packages()` command to install the required packages.
+> >
+> > ```{r ch5-sol1a, eval=FALSE}
+> > install.packages("ggplot2")
+> > install.packages("plyr")
+> > install.packages("gapminder")
+> > ```
+> >
+> > An alternate solution, to install multiple packages with a single `install.packages()` command is:
+> >
+> > ```{r ch5-sol2, eval=FALSE}
+> > install.packages(c("ggplot2", "plyr", "gapminder"))
+> > ```

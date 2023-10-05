@@ -1,0 +1,221 @@
+# Getting started with R and RStudio {#sec-getting-started}
+
+```{r, include=FALSE}
+if(knitr::is_html_output()){
+  knitr::opts_chunk$set(out.width = "500px", 
+                        out.extra='style="display: block; margin-left: auto; margin-right: auto; background-color: #000; padding:3px;"')
+} else{
+  knitr::opts_chunk$set(out.width = "4in")
+}
+```
+
+```{r, echo=FALSE}
+img_path <- "~/Desktop/RIntro2023/img/"
+screenshots <- list.files(file.path(img_path, "windows-screenshots"))
+screenshots <- file.path(img_path, "windows-screenshots", screenshots)
+mac_screenshots <- list.files(file.path(img_path, "mac-screenshots"))
+mac_screenshots <- file.path(img_path,"mac-screenshots", mac_screenshots)
+```
+
+```{r, echo=FALSE}
+img_path <- "img"
+```
+
+## Why R?
+
+R is not a programming language like C or Java. It was not created by software engineers for software development. Instead, it was developed by statisticians as an interactive environment for data analysis. You can read the full history in the paper A Brief History of S[^index-1]. The interactivity is an indispensable feature in data science because, as you will soon learn, the ability to quickly explore data is a necessity for success in this field. However, like in other programming languages, you can save your work as scripts that can be easily executed at any moment. These scripts serve as a record of the analysis you performed, a key feature that facilitates reproducible work. If you are an expert programmer, you should not expect R to follow the conventions you are used to since you will be disappointed. If you are patient, you will come to appreciate the unequal power of R when it comes to data analysis and, specifically, data visualization.
+
+[^index-1]: https://pdfs.semanticscholar.org/9b48/46f192aa37ca122cfabb1ed1b59866d8bfda.pdf
+
+Other attractive features of R are:
+
+1.  R is free and open source[^index-2].
+2.  It runs on all major platforms: Windows, Mac Os, UNIX/Linux.
+3.  Scripts and data objects can be shared seamlessly across platforms.
+4.  There is a large, growing, and active community of R users and, as a result, there are numerous resources for learning and asking questions[^index-3] [^index-4] [^index-5].
+5.  It is easy for others to contribute add-ons which enables developers to share software implementations of new data science methodologies. This gives R users early access to the latest methods and to tools which are developed for a wide variety of disciplines, including ecology, molecular biology, social sciences, and geography, just to name a few examples.
+
+[^index-2]: https://opensource.org/history
+
+[^index-3]: https://stats.stackexchange.com/questions/138/free-resources-for-learning-r
+
+[^index-4]: https://www.r-project.org/help.html
+
+[^index-5]: https://stackoverflow.com/documentation/r/topics
+
+## Let's start!
+
+**Basic layout**
+
+When you first open RStudio, you will be greeted by three panels:
+
+-   The interactive R console/Terminal (entire left)
+-   Environment/History/Connections (tabbed in upper right)
+-   Files/Plots/Packages/Help/Viewer (tabbed in lower right)
+
+![RStudio layout](figure/01-rstudio.png){fig-align="center" width="70%"}
+
+Once you open files, such as R scripts, an editor panel will also open
+in the top left.
+
+![RStudio layout with .R file open](figure/01-rstudio-script.png){fig-align="center" width="70%"}
+
+## Work flow within RStudio
+
+There are two main ways one can work within RStudio:
+
+### R console
+
+1.  Test and play within the interactive R console then copy code into a
+    .R file to run later.
+
+    -   This works well when doing small tests and initially starting
+        off.
+    -   It quickly becomes laborious
+
+
+Interactive data analysis usually occurs on the *R console* that executes commands as you type them. There are several ways to gain access to an R console. One way is to simply start R on your computer. The console looks something like this:
+
+```{r, echo=FALSE}
+## http://ww2.coastal.edu/kingw/statistics/R-tutorials/install_help/R_console.png
+knitr::include_graphics(file.path(img_path,"R_console.png"))
+```
+
+As a quick example, try using the console to calculate a 15% tip on a meal that cost \$19.71:
+
+```{r, tip_calculator}
+0.15 * 19.71  
+```
+
+**Here, grey boxes are used to show R code typed into the R console. The symbol `#>` is used to denote what the R console outputs.**
+
+### Scripts
+
+2.  Start writing in a .R file and use RStudio's short cut keys for the
+    Run command to push the current line, selected lines or modified
+    lines to the interactive R console.
+
+    -   This is a great way to start; all your code is saved for later
+    -   You will be able to run the file you create from within RStudio
+        or using R's `source()` function.
+
+
+One of the great advantages of R over point-and-click analysis software is that you can save your work as scripts. You can edit and save these scripts using a text editor. The material here was developed using the interactive *integrated development environment* (IDE) RStudio[^index-6]. RStudio includes an editor with many R specific features, a console to execute your code, and other useful panes, including one to show figures.
+
+[^index-6]: https://www.rstudio.com/
+
+```{r, echo=FALSE}
+knitr::include_graphics(file.path(img_path, "rstudio.png"))
+```
+
+Most web-based R consoles also provide a pane to edit scripts, but not all permit you to save the scripts for later use.
+
+When you start RStudio for the first time, you will see three panes. The left pane shows the R console. On the right, the top pane includes tabs such as *Environment* and *History*, while the bottom pane shows five tabs: *File*, *Plots*, *Packages*, *Help*, and *Viewer* (these tabs may change in new versions). You can click on each tab to move across the different features.
+
+```{r, echo=FALSE}
+knitr::include_graphics(screenshots[30]) 
+```
+
+To start a new script, you can click on File, then New File, then R Script.
+
+```{r, echo=FALSE}
+knitr::include_graphics(screenshots[31]) 
+```
+
+This starts a new pane on the left and it is here where you can start writing your script.
+
+```{r, echo=FALSE}
+knitr::include_graphics(screenshots[32]) 
+```
+
+### Key bindings
+
+Many tasks we perform with the mouse can be achieved with a combination of key strokes instead. These keyboard versions for performing tasks are referred to as *key bindings*. For example, we just showed how to use the mouse to start a new script, but you can also use a key binding: Ctrl+Shift+N on Windows and command+shift+N on the Mac.
+
+Although in this tutorial we often show how to use the mouse, **we highly recommend that you memorize key bindings for the operations you use most**. RStudio provides a useful cheat sheet with the most widely used commands. You can get it from RStudio directly:
+
+```{r, echo=FALSE}
+knitr::include_graphics(screenshots[33]) 
+```
+
+````{=html}
+<!-- and it looks like this:
+
+```{r, echo=FALSE}
+knitr::include_graphics(screenshots[34]) 
+```
+-->
+````
+
+You might want to keep this handy so you can look up key-bindings when you find yourself performing repetitive point-and-clicking.
+
+### Running commands while editing scripts
+
+There are many editors specifically made for coding. These are useful because color and indentation are automatically added to make code more readable. RStudio is one of these editors, and it was specifically developed for R. One of the main advantages provided by RStudio over other editors is that we can test our code easily as we edit our scripts. Below we show an example.
+
+Let's start by opening a new script as we did before. A next step is to give the script a name. We can do this through the editor by saving the current new unnamed script. To do this, click on the save icon or use the key binding Ctrl+S on Windows and command+S on the Mac.\
+<!--
+```{r, echo=FALSE}
+knitr::include_graphics(screenshots[39]) 
+```
+-->
+
+When you ask for the document to be saved for the first time, RStudio will prompt you for a name. A good convention is to use a descriptive name, with lower case letters, no spaces, only hyphens to separate words, and then followed by the suffix *.R*. We will call this script *my-first-script.R*.
+
+```{r, echo=FALSE}
+knitr::include_graphics(screenshots[40]) 
+```
+
+Now we are ready to start editing our first script. The first lines of code in an R script are dedicated to loading the libraries we will use. Another useful RStudio feature is that once we type `library()` it starts auto-completing with libraries that we have installed. Note what happens when we type `library(ti)`:
+
+```{r, echo=FALSE}
+knitr::include_graphics(screenshots[41]) 
+```
+
+Another feature you may have noticed is that when you type `library(` the second parenthesis is automatically added. This will help you avoid one of the most common errors in coding: forgetting to close a parenthesis.
+
+> ## Tip: Running segments of your code
+>
+> RStudio offers you great flexibility in running code from within the
+> editor window. There are buttons, menu choices, and keyboard
+> shortcuts. To run the current line, you can 1. click on the `Run`
+> button above the editor panel, or 2. select "Run Lines" from the
+> "Code" menu, or 3. hit <kbd>Ctrl</kbd>+<kbd>Return</kbd> in Windows or
+> Linux or <kbd>⌘</kbd>+<kbd>Return</kbd> on OS X. (This shortcut can
+> also be seen by hovering the mouse over the button). To run a block of
+> code, select it and then `Run`. If you have modified a line of code
+> within a block of code you have just run, there is no need to reselect
+> the section and `Run`, you can use the next button along,
+> `Re-run the previous region`. This will run the previous code block
+> including the modifications you have made. {: .callout}
+
+
+
+### Changing global options
+
+You can change the look and functionality of RStudio quite a bit.
+
+To change the global options you click on *Tools* then *Global Options...*
+
+```{r, echo=FALSE}
+knitr::include_graphics(screenshots[44]) 
+```
+
+As an example, we show how to change the appearance of the editor. To do this click on _Appearance_ and then notice the _Editor theme_ options.
+
+```{r, echo=FALSE}
+knitr::include_graphics(screenshots[45]) 
+```
+
+You can click on these and see examples of how your editor will look. 
+
+```{r, echo=FALSE}
+knitr::include_graphics(screenshots[46]) 
+```
+
+What about the _Cobalt_ option? This makes your editor look like this:
+
+```{r, echo=FALSE}
+knitr::include_graphics(screenshots[47]) 
+```
+

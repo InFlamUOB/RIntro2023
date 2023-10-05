@@ -1,0 +1,204 @@
+# Recap and data types
+
+-   Good reading material:
+    -   [R as a language](https://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf)
+
+------------------------------------------------------------------------
+
+If you have downloaded R in your computer go to the terminal and type R. This will executed R and you will have the characteristic *\>* waiting for your command (in bluebear you can access the terminal too). This command has to be an expression written in R language and it will be exceuted as soon as you press enter (interpreted language not compiled as C, Fortran etc..). As in our own languages, there are specific ways a command has to be written in, in order to be understandable/interpretable by R.Luckily R uses quite simple syntax as you will soon discover. Key structures to take into account are:
+
+-   Assign operator **\<-**
+-   Functions are specified with a *function name* followed by *()*
+
+In an R session, you will be working with *objects* which are stored in active memory with a name. Objects can be:
+
+-   variables
+-   data
+-   functions
+
+And they have a specific *name* you assign.
+
+`Check it out in the terminal and see that objects are stored there, but cannot see them. That is why RStudio makes things easier, objects will be found in the *Environment*`
+
+You can then do actions on objects through *operators*:
+
+-   arithmetic (=/-/\*)
+-   logical (\|, &)
+-   comparison (\>, ==, !=)
+-   functions
+
+Functions
+
+```{r}
+
+func_name <- function (argument) {
+statement
+}
+
+```
+
+Example
+
+```{r}
+pow <- function(x, y) {
+# function to print x raised to the power y
+result <- x^y
+print(paste(x,"raised to the power", y, "is", result))
+}
+```
+
+```{r}
+pow(x=3,y=5) #arguments
+
+```
+
+```{r}
+pow(3,5)
+```
+
+```{r}
+pow(y=3,x=5) #arguments change
+```
+
+```{r}
+pow(5,8)
+```
+
+Functions is what makes up packages. Here lies the power of R and open-source software. Anyone can create there own functions, upload it as packages to the [CRAN](https://cran.r-project.org/web/packages/available_packages_by_name.html) repository (The Comprehensive R Archive Network (CRAN) is R's central software repository) and make them available for all R users to download. So, things like above we can make them ourselves, but more complex functions that will allow us to plot things such as packages *ggplot2* are available. Or packages that will allow us to create machine learning models *tidymodels* are also available. Check out the *tidyverse* universe for a collection of packages with very useful functions for data.analysis, all curated and created by RStudio company now names posit. Cheetsheets are more info availabe [here](https://posit.co/resources/cheatsheets/)
+
+In order to be able to use this functions created by external users, you have to install these packages through the function *install.packages()*, the argument inside this function has to be a character, so has to be surrounded by quotes "".Here we will install the package *Metrics* that has the following functions available:
+
+First: install.packages("Metrics")
+
+Once we have it downloaded, (this means that a folder with the functions (and extra info) is now in our system), we have to make it available for our current session to be able to use it. This is done through teh function *library()* and you can now introduce the name of the packae with our without quotes.
+
+```{r}
+library(Metrics)
+```
+
+Usually all packages that you will need to use during your analysis will appear at the top of your script.
+
+To see the content of one of the functions now availabe through the package Metrics we can just type its name (in order to make sure that you are retrieving the function that belongs to the package Metric you can also write it with two colons: *Metrics::bias*)
+
+```{r}
+bias
+```
+
+This is a function we could have written ourselves
+
+```{r}
+actual <- c(1.1, 1.9, 3.0, 4.4, 5.0, 5.6)
+predicted <- c(0.9, 1.8, 2.5, 4.5, 5.0, 6.2)
+
+```
+
+```{r}
+bias(actual, predicted)
+```
+
+```{r}
+mean(actual - predicted) 
+```
+
+But available through this package.
+
+Other useful functions we used yesterday are: getwd(), setwd(), ls(), sessionInfo(), sqrt(), log() and they are already available when you download R through a package that comes downloaded too called *base*.
+
+And you can always find out how a function works by typing *help(namefunction)* or *?namefunction*
+
+Finally feel free to read through this example, if you want to gain further insight [extra info](https://bookdown.org/rwnahhas/IntroToR/functions.html)
+
+------------------------------------------------------------------------
+
+# Data types
+
+So we have said that R stores *objects* that we can work with or do *operations* on. To properly work with them we have to better understand the specific *attributes* of these objects.
+
+All *objects* have two intrinsic attributes: *mode and length*.
+
+\-`Mode` also known as *data type* is the basic type of the elements of the object; there are four main ones: `numeric, character, complex and logical (FALSE or TRUE)`.
+
+\-`Length` is the number of elements of the object.
+
+And both can be summarized through function *str()*
+
+```{r}
+x <- 1
+mode(x)
+length(x)
+str(x)
+```
+
+```{r}
+x <- "hello"
+mode(x)
+length(x)
+str(x)
+```
+
+```{r}
+x <- 4i
+mode(x)
+length(x)
+str(x)
+```
+
+```{r}
+x <- TRUE
+mode(x)
+length(x)
+str(x)
+```
+
+Depending on what data type something is, you can perform specific operations. For example the below would give an error:
+
+```{r}
+x <- 1
+y <- "hello"
+
+#x + y 
+
+```
+
+# Data structures
+
+To represent data, we have the following *objects*, called *data structures* (there are more, but these are the ones we are mainly focusing on). Each data structure contains data in a specific format:
+
+-   vector
+-   factor
+-   matrix
+-   lists
+-   data frame
+
+And for you to get an initial idea, they can be described as follows:
+
+-   vector: a variable in the commonly admitted meaning
+-   factor: a categorical vector
+-   matrix: table with 2 dimensions
+-   lists: very, flexible - can contain any type of object
+-   data frame: table composed of one or several vectors/factors of all the same length.
+
+They can all be created through functions:
+
+-   vector: vector or combine function - c(1,2,3,4)
+-   factor: factor()
+-   matrix: matrix()
+-   lists: list()
+-   data frame: data.frame()
+
+------------------------------------------------------------------------
+
+In the previous class we created a data.frame and stored it in our *working directory* (found through getwd()):
+
+```{r}
+cats <- data.frame(coat = c("calico", "black", "tabby"),
+                    weight = c(2.1, 5.0, 3.2),
+                    likes_string = c(1, 0, 1))
+write.csv(x = cats, file = "feline-data.csv", row.names = FALSE)
+```
+
+Now run it again (can also retrieve it through:)
+
+```{r}
+cats2 <- read.csv(file = "feline-data.csv")
+```

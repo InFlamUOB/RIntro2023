@@ -1,0 +1,265 @@
+# Programming basics: control flow (if and for)
+
+This belongs to more advanced programming and you will have a chance to revisit it during this course. Here is just a brief overview. For extra info:
+
+-   [Advanced R](https://adv-r.hadley.nz/control-flow.html)
+
+Basically what we will learn now is conditional expressions and control flow. In R, we can actually perform quite a bit of data analysis without conditionals but they do come up occasionally. Control flow amounts to `setting actions to occur only if a condition or a set of conditions are met *(if)*. For example, to put it a bit into perspective, we might be interested in only performing an action (e.g print name) of those patients in a dataset that are older than 80.`Alternatively, we can also set an action to occur a particular number of times *(for)*.\`
+
+So for a bit of refresh, we have seen that there are three main operations you can perform in variables, two of them will result in a variable with a logical data.type (TRUE or FALSE), this is the kind of input we are interested in for conditional workflows.
+
+-   arithmetic: (+/-/\*)
+
+-   logical: AND operator (&), OR operator (\|),NOT operator (!)
+
+-   comparison:
+
+    -   \>(greater than)
+
+    -   = (greater than or equal to)
+
+    -   \< (less than)
+
+    -   \<= (less than or equal to)
+
+    -   == (equal to)
+
+    -   != (not equal to)
+
+> We will not get into describing logical operators, but feel free to look it up. They are also sometimes found under boolean algebra.
+
+So for example you can compare:
+
+```{r}
+x <- 5
+
+x > 10
+x == 5
+x <= 3
+is.character(x)
+!is.character(x)
+```
+
+You can apply logical operators elementwise to vectors or matrices.
+
+```{r}
+
+x <- c(-1, 0, 1)
+
+# Check each element of x against the condition (elementwise)
+x <= 0             
+```
+
+Also:
+
+```{r}
+# Check if EACH element of x is equal to ANY of
+# the elements of the object on the right
+x %in% c(0, 1, 2)
+```
+
+## If-else
+
+For conditional statements, the most commonly used approaches are the constructs:
+
+```{r, eval = FALSE}
+# if
+if (condition is true) {
+  perform action
+}
+
+# if ... else
+if (condition is true) {
+  perform action
+} else {  # that is, if the condition is false,
+  perform alternative action
+}
+```
+
+Say, for example, that we want R to print a message if a variable `x` has a particular value:
+
+```{r}
+x <- 8
+
+if (x >= 10) {
+  print("x is greater than or equal to 10")
+}
+
+x
+```
+
+The print statement does not appear in the console because x is not greater than 10. To print a different message for numbers less than 10, we can add an `else` statement.
+
+```{r}
+x <- 8
+
+if (x >= 10) {
+  print("x is greater than or equal to 10")
+} else {
+  print("x is less than 10")
+}
+```
+
+You can also test multiple conditions by using `else if`.
+
+```{r}
+x <- 8
+
+if (x >= 10) {
+  print("x is greater than or equal to 10")
+} else if (x > 5) {
+  print("x is greater than 5, but less than 10")
+} else {
+  print("x is less than 5")
+}
+```
+
+**Important:** when R evaluates the condition inside `if()` statements, it is looking for a logical element, i.e., `TRUE` or `FALSE`. This can cause some headaches for beginners. For example:
+
+```{r}
+x  <-  4 == 3
+if (x) {
+  "4 equals 3"
+} else {
+  "4 does not equal 3"          
+}
+```
+
+As we can see, the not equal message was printed because the vector x is `FALSE`
+
+```{r}
+x <- 4 == 3
+x
+```
+
+> ## Tip: Built in `ifelse()` function
+>
+> `R` accepts both `if()` and `else if()` statements structured as outlined above, but also statements using `R`'s built-in `ifelse()` function. This function accepts both singular and vector inputs and is structured as follows:
+
+```{r, eval = FALSE}
+# ifelse function 
+ifelse(condition is true, perform action, perform alternative action) 
+
+```
+
+> where the first argument is the condition or a set of conditions to be met, the second argument is the statement that is evaluated when the condition is `TRUE`, and the third statement is the statement that is evaluated when the condition is `FALSE`.
+
+```{r}
+y <- -3
+ifelse(y < 0, "y is a negative number", "y is either positive or zero")
+
+```
+
+## for: repeating operations
+
+Sometimes you want to carry out the same procedure multiple times. This is called iteration and the simplest form of iteration is the for loop.
+
+The basic structure of a `for()` loop is:
+
+```{r, eval = FALSE}
+for (iterator in set of values) {
+  do a thing
+}
+```
+
+For example:
+
+```{r}
+for (i in 1:10) {
+  print(i)
+}
+```
+
+The `1:10` bit creates a vector on the fly; you can iterate over any other vector as well.
+
+We can use a `for()` loop nested within another `for()` loop to iterate over two things at once.
+
+```{r}
+for (i in 1:5) {
+  for (j in c('a', 'b', 'c', 'd', 'e')) {
+    print(paste(i,j))
+  }
+}
+```
+
+We notice in the output that when the first index (`i`) is set to 1, the second index (`j`) iterates through its full set of indices. Once the indices of `j` have been iterated through, then `i` is incremented. This process continues until the last index has been used for each `for()` loop.
+
+Another example:
+
+```{r}
+
+x <- c("A", "B", "C")
+
+for(i in 1:length(x)) {
+  print(x[i])
+}
+
+```
+
+The syntax is that you define an index (in this case, the letter i) and starting (1) and stopping (length(x)) values. R sets the index to the first value, then runs the code between the { } brackets. Then it iterates, moving to the next value of the index, and re-running the code. This example also demonstrates the use of the length() function, which returns the number of elements in an object.
+
+Here is a similar loop but with a more complicated piece of code inside. At each iteration, the paste() function combines text from the ith element of x and the the ith element y into a sentence.
+
+```{r}
+
+
+x <- c("A", "B", "C")
+y <- c(10, 18, 7)
+
+for(i in 1:length(x)) {
+  print(paste("Item", x[i], "weighs", y[i], "lbs.", sep = " "))
+}
+
+```
+
+Not very computational efficient. Other options are vectorized approaches such as the `purrr` package.
+
+> ## Final challenge
+>
+> Write a script that loops through the `gapminder` data by continent and prints out whether the mean life expectancy is smaller or larger than 50 years.
+>
+> > **Step 1**: We want to make sure we can extract all the unique values of the continent vector
+> >
+> > ```{r 07-chall-03-sol-a, eval=FALSE}
+> > library(gapminder)
+> > gapminder <- gapminder
+> > unique(gapminder$continent)
+> > ```
+> >
+> > **Step 2**: We also need to loop over each of these continents and calculate the average life expectancy for each `subset` of data. We can do that as follows:
+> >
+> > 1.  Loop over each of the unique values of 'continent'
+> > 2.  For each value of continent, create a temporary variable storing that subset
+> > 3.  Return the calculated life expectancy to the user by printing the output:
+> >
+> > ```{r 07-chall-03-sol-b, eval=FALSE}
+> > for (iContinent in unique(gapminder$continent)) {
+> >   tmp <- gapminder[gapminder$continent == iContinent, ]   
+> >   cat(iContinent, mean(tmp$lifeExp, na.rm = TRUE), "\n")  
+> >   rm(tmp)
+> > }
+> > ```
+> >
+> > **Step 3**: The exercise only wants the output printed if the average life expectancy is less than 50 or greater than 50. So we need to add an `if()` condition before printing, which evaluates whether the calculated average life expectancy is above or below a threshold, and prints an output conditional on the result. We need to amend (3) from above:
+> >
+> > 3a. If the calculated life expectancy is less than some threshold (50 years), return the continent and a statement that life expectancy is less than threshold, otherwise return the continent and a statement that life expectancy is greater than threshold:
+> >
+> > ```{r 07-chall-03-sol-c, eval=FALSE}
+> > thresholdValue <- 50
+> > > >
+> > for (iContinent in unique(gapminder$continent)) {
+> >    tmp <- mean(gapminder[gapminder$continent == iContinent, "lifeExp"])
+> >    
+> >    if (tmp < thresholdValue){
+> >        cat("Average Life Expectancy in", iContinent, "is less than", thresholdValue, "\n")
+> >    } else {
+> >        cat("Average Life Expectancy in", iContinent, "is greater than", thresholdValue, "\n")
+> >    } # end if else condition
+> >    rm(tmp)
+> > } # end for loop
+> > > >
+> > ```
+> >
+> > {: .solution} {: .challenge}
+
+As we have seen many times in these lectures, there are many different ways this could have been done in too!

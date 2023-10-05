@@ -1,0 +1,262 @@
+# Data Structures
+
+So as previously explained, variables (values we have assigned (\<-) a name), have specific data types: `numeric, character, complex and logical (FALSE or TRUE)`
+
+```{r}
+
+VariableName <- 1
+
+str(VariableName)
+
+```
+
+These variables can be define into structures called *data structures*. We will start with the simplest data structure, the *vector*
+
+## Vectors and Type Coercion
+
+All variable we have presented up until now (e.g VariableName) can be considered vectors of length 1. A vector of bigger length can be created through functions vector or combine (c())
+
+```{r}
+my_vector <- vector(length = 3)
+my_vector
+```
+
+```{r}
+my_vector2 <- c(1,2,3,4)
+my_vector2
+```
+
+If we want to understand mode and length of this variable, we can use structure function or str(), which will give as the data type information (mode) and length (1:4)
+
+```{r}
+str(my_vector2)
+```
+
+Something essential is that *everything in a vector* must be the same data type and if there is a mix of data types, it will default/coerce to *character*. Check this out:
+
+```{r}
+quiz_vector <- c(1,6,'3')
+str(quiz_vector)
+```
+
+In general coercion rules go as follows: `logical` -\> `integer` -\> `numeric` -\>`complex` -\> `character`, where -\> can be read as *are transformed into*. You can try to force coercion against this flow using the `as.` functions:
+
+```{r}
+character_vector_example <- c('0','2','4')
+character_vector_example
+character_coerced_to_numeric <- as.numeric(character_vector_example)
+character_coerced_to_numeric
+numeric_coerced_to_logical <- as.logical(character_coerced_to_numeric)
+numeric_coerced_to_logical
+```
+
+As you can see, some surprising things can happen when R forces one basic data type into another! Nitty-gritty of type coercion aside, the point is: if your data doesn't look like what you thought it was going to look like, type coercion may well be to blame; make sure everything is the same type in your vectors and your columns of data.frames, or you will get nasty surprises!
+
+As an example of this coercion working
+
+```{r}
+#| error: true
+
+quiz_vector <- c(10,6,'5')
+quiz_vector[1] + quiz_vector[2]
+
+nuemeric <- c(10,6,5)
+nuemeric[1] + nuemeric[2]
+
+```
+
+Only numbers can be added, and the values from the 1st and 2nd position in the quiz_vector are not numbers but characters due to coercion. The numeric vector on the other hand, works as expected.
+
+Finally, you can give names to elements in your vector:
+
+```{r}
+my_example <- 5:8
+names(my_example) <- c("a", "b", "c", "d")
+my_example
+names(my_example)
+```
+
+# Data frames
+
+Lets bring back the cats dataset we stored. Data frames are a collection of names vectors in the columns. They all have to have the same length and an be accessed through *\$*.
+
+```{r}
+cats <- read.csv(file = "feline-data.csv", stringsAsFactors = FALSE)
+ 
+#or 
+
+cats <- data.frame(coat = c("calico", "black", "tabby"),
+                    weight = c(2.1, 5.0, 3.2),
+                    likes_string = c(1, 0, 1))
+```
+
+Check the structure of this data structure! Description of structure of 3 vectors.
+
+```{r}
+str(cats)
+```
+
+Here we can see why coercion can also be very useful! The column `likes_string` is numeric, but we know that the 1s and 0s actually represent `TRUE` and `FALSE` (a common way of representing them). We should use the `logical` datatype here, which has two states: `TRUE` or `FALSE`, which is exactly what our data represents. We can 'coerce' this column to be `logical` by using the `as.logical` function:
+
+```{r}
+cats$likes_string
+cats$likes_string <- as.logical(cats$likes_string)
+cats$likes_string
+```
+
+In our `cats` example, we have an integer, a double and a logical variable. As we have seen already, each column of data.frame is a vector.
+
+```{r}
+cats$coat
+cats[,1]
+str(cats[,1])
+```
+
+Each row is an *observation* of different variables, itself a data.frame, and thus can be composed of elements of different types.
+
+```{r}
+cats[1,]
+str(cats[1,])
+```
+
+## Factors
+
+A data structure that is somewhat special is a *factor*. Factors usually look like character data, but are typically used to represent categorical information. For example, let's make a vector of strings labelling cat colorations for all the cats in our study:
+
+```{r}
+coats <- c('tabby', 'tortoiseshell', 'tortoiseshell', 'black', 'tabby')
+coats
+str(coats)
+```
+
+We can turn a vector into a factor like so:
+
+```{r}
+CATegories <- factor(coats)
+str(CATegories)
+```
+
+Now R has noticed that there are three possible categories in our data - but it also did something surprising; instead of printing out the strings we gave it, we got a bunch of numbers instead. R has replaced our human-readable categories with numbered indices under the hood, this is necessary as many statistical calculations utilise such numerical representations for categorical data.
+
+Lets exemplify a bit better the differences between a character vector and a factor:
+
+```{r}
+CharVect <- c("May", "June", "July")
+Factor <- factor(CharVect)
+```
+
+```{r}
+CharVect[4] <- "April"
+CharVect
+Factor[4] <- "April"
+Factor
+Factor[4] <- "May"
+Factor
+```
+
+A factor will not tolerate any other value than the categories introduced or "levels", in this case May, June and July. A character vector, yes.
+
+## Lists
+
+Another data structure you'll want in your bag of tricks is the `list`.A list is simpler in some ways than the other types, because you can put anything you want in it:
+
+```{r}
+list_example <- list(1, "a", TRUE, 1+4i)
+list_example
+another_list <- list(title = "Numbers", numbers = 1:10, data = TRUE )
+another_list
+```
+
+> ## Challenge 1
+>
+> There are several subtly different ways to call variables, observations and elements from data.frames:
+>
+> -   `cats[1]`
+> -   `cats[[1]]`
+> -   `cats$coat`
+> -   `cats["coat"]`
+> -   `cats[1, 1]`
+> -   `cats[, 1]`
+> -   `cats[1, ]`
+>
+> Try out these examples and explain what is returned by each one.
+>
+> *Hint:* Use the function `typeof()` to examine what is returned in each case.
+>
+> > ## Solution to Challenge 1
+> >
+> > ```{r, eval=TRUE, echo=TRUE}
+> > cats[1]
+> > ```
+> >
+> > We can think of a data frame as a list of vectors. The single brace `[1]` returns the first slice of the list, as another list. In this case it is the first column of the data frame.
+> >
+> > ```{r, eval=TRUE, echo=TRUE}
+> > cats[[1]]
+> > ```
+> >
+> > The double brace `[[1]]` returns the contents of the list item. In this case it is the contents of the first column, a *vector* of type *factor*.
+> >
+> > ```{r, eval=TRUE, echo=TRUE}
+> > cats$coat
+> > ```
+> >
+> > This example uses the `$` character to address items by name. *coat* is the first column of the data frame, again a *vector* of type *factor*.
+> >
+> > ```{r, eval=TRUE, echo=TRUE}
+> > cats["coat"]
+> > ```
+> >
+> > Here we are using a single brace `["coat"]` replacing the index number with the column name. Like example 1, the returned object is a *list*.
+> >
+> > ```{r, eval=TRUE, echo=TRUE}
+> > cats[1, 1]
+> > ```
+> >
+> > This example uses a single brace, but this time we provide row and column coordinates. The returned object is the value in row 1, column 1. The object is an *integer* but because it is part of a *vector* of type *factor*, R displays the label "calico" associated with the integer value.
+> >
+> > ```{r, eval=TRUE, echo=TRUE}
+> > cats[, 1]
+> > ```
+> >
+> > Like the previous example we use single braces and provide row and column coordinates. The row coordinate is not specified, R interprets this missing value as all the elements in this *column* *vector*.
+> >
+> > ```{r, eval=TRUE, echo=TRUE}
+> > cats[1, ]
+> > ```
+> >
+> > Again we use the single brace with row and column coordinates. The column coordinate is not specified. The return value is a *list* containing all the values in the first row. {: .solution} {: .challenge}
+
+## Matrices
+
+Last but not least is the matrix. We can declare a matrix full of zeros:
+
+```{r}
+matrix_example <- matrix(0, ncol=6, nrow=3)
+matrix_example
+```
+
+And similar to other data structures, we can ask things about our matrix:
+
+```{r}
+
+str(matrix_example)
+
+```
+
+> ## Challenge 2
+>
+> Create a list of length two containing a character vector for each of the sections in this part of the workshop:
+>
+> -   Data types
+> -   Data structures
+>
+> Populate each character vector with the names of the data types and data structures we've seen so far.
+>
+> > ## Solution to Challenge 2
+> >
+> > ```{r}
+> > dataTypes <- c('double', 'complex', 'integer', 'character', 'logical')
+> > dataStructures <- c('data.frame', 'vector', 'factor', 'list', 'matrix')
+> > answer <- list(dataTypes, dataStructures)
+> > ```

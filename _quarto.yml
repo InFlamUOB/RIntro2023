@@ -1,0 +1,57 @@
+project:
+  type: website
+
+website:
+  back-to-top-navigation: true
+  page-navigation: true
+  title: "HDS Class - RIntro-2023"
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Tuesday"
+        file: installing-r-and-rstudio.qmd
+      - text: "Wednesday"
+        file: recap.qmd
+      - text: "About"
+        file: tutorials.qmd
+
+  sidebar:
+    - title: "Tuesday"
+      style: "docked"
+      background: light
+      contents:
+        - installing-r-and-rstudio.qmd
+        - gettingstarted.qmd
+        - R-basics.qmd
+        - extra.qmd
+
+    
+    - title: "Wednesday"
+      contents:
+        - recap.qmd
+        - DataTypesWednesday.qmd
+        - ProgBasicsWed.qmd
+    
+    - title: "About"
+      contents:
+        - tutorials.qmd
+        - datatypes1.qmd
+        #- datatypes2.qmd
+        - wrangling.qmd
+
+  page-footer: 
+    left: "Copyright 2023, Laura Bravo" 
+    background: light
+    right: 
+      - icon: twitter 
+        href: https://twitter.com/laura_bravo94
+    
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+editor: visual
+

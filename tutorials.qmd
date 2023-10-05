@@ -1,0 +1,15 @@
+# Extra Info
+
+The content of this course has been produced using material from:
+
+-   [Data Science Book](https://datasciencelabs.github.io/2023/)
+
+-   [R Carpentries](https://swcarpentry.github.io/r-novice-gapminder/)
+
+To continue learning R, there are many tutorials available, but would recommend:
+
+-   [edX platform](https://www.edx.org/learn/r-programming/harvard-university-data-science-r-basics)
+
+-   [Coursera R and data analysis](https://www.coursera.org/specializations/statistics?action=enroll&adgroupid=153820800888&adposition=&campaignid=19997231435&creativeid=655405134876&device=c&devicemodel=&gclid=CjwKCAjw9-6oBhBaEiwAHv1QvAfAr638pis-5vHkCr3hRDMe7ILnym3ogn2reCDolSdvNDKHDp6CNBoC1DoQAvD_BwE&hide_mobile_promo&keyword=&matchtype=&network=g&utm_campaign=B2C_EMEA_statistics_duke_FTCOF_specializations_country-UK-country-GB&utm_medium=sem&utm_source=gg)
+
+> Can audit both courses ( access and do exercises for free online ) in a guided manner. Would recommend these platform in general!
